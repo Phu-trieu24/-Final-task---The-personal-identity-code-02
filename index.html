@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Personal Identity Code Generator</title>
+    </head>
+    <body>
+        <h1>Personal Identity Code Generator</h1>
+        <form id="pidForm">
+            <label for="pid"
+                ><b>Enter Date of Birth and Individual Number:</b></label
+            >
+            <input
+                type="text"
+                id="pid"
+                name="pid"
+                required
+                pattern="[0-9]{6}-[0-9]{3}"
+                placeholder="DDMMYY-XXX"
+            />
+            <button type="button" onclick="generatePID()">
+                Generate Personal Identity Code
+            </button>
+        </form>
+
+        <div id="result"></div>
+
+        <script>
+            function generatePID() {
+                var pidInput = document.getElementById("pid").value;
+                var resultDiv = document.getElementById("result");
+
+                // Validate input
+                var pidRegex = /^[0-9]{6}-[0-9]{3}$/;
+
+                if (!pidRegex.test(pidInput)) {
+                    resultDiv.innerHTML =
+                        "Invalid input! Please enter a valid value in the format DDMMYY-XXX.";
+                    return;
+                }
+
+                // Extract date of birth and individual number from input
+                var dob = parseInt(pidInput.substr(0, 6));
+                var individualNumber = parseInt(pidInput.substr(7, 3));
+
+                // Calculate the remainder
+                var remainder = (dob * 1000 + individualNumber) % 31;
+
+                // Define the mapping of remainder to control character
+                var controlCharacters = [
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "A",
+                    "B",
+                    "C",
+                    "D",
+                    "E",
+                    "F",
+                    "H",
+                    "J",
+                    "K",
+                    "L",
+                    "M",
+                    "N",
+                    "P",
+                    "R",
+                    "S",
+                    "T",
+                    "U",
+                    "V",
+                    "W",
+                    "X",
+                    "Y",
+                ];
+
+                // Output the result
+                resultDiv.innerHTML =
+                    "Personal Identity Code: " + controlCharacters[remainder];
+            }
+        </script>
+    </body>
+</html>
